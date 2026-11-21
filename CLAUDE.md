@@ -460,8 +460,11 @@ bir lisans ya da başka projeden lisanslı kod EKLEME.
 
 **Vitrin:** `README.md` (GitHub ziyaretçisi için: ürün + öne çıkan teknik
 kararlar), `docs/screenshots/` (örnek kullanıcı "Elif" ile gerçek
-uygulamadan alındı), `public/og-image.png` + `index.html`'de Open Graph
-etiketleri (görsel adresi MUTLAK olmalı, yoksa LinkedIn boş kart gösterir),
+uygulamadan alındı), `public/og-image-v2.png` (2400×1260, 2x — 1x hâli
+LinkedIn'in yeniden sıkıştırmasında bulanıklaşıyordu) + `index.html`'de
+Open Graph etiketleri (görsel adresi MUTLAK olmalı, yoksa LinkedIn boş
+kart gösterir; görsel değişirse dosya adı da değişmeli, LinkedIn adrese
+göre önbelleğe alıyor),
 `public/gizlilik.html` (Play Store da gizlilik adresi isteyecek). Canlı
 adresi **`/gizlilik`**: Cloudflare `.html` adreslerini 308 ile uzantısıza
 yönlendiriyor, bağlantılar doğrudan son adrese verilir.
