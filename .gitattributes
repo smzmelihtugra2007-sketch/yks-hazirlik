@@ -1,0 +1,4 @@
+# Dosyalar LF; Windows'ta git CRLF'ye çevirmesin (diff gürültüsü, Linux'ta derleyen Cloudflare ile tutarsızlık)
+* text=auto eol=lf
+*.png binary
+*.woff2 binary

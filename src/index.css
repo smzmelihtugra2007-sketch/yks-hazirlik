@@ -1,0 +1,417 @@
+/* Yazı tipi paketle geliyor (main.jsx → @fontsource-variable/inter), Google
+   Fonts'tan DEĞİL: her açılışta kullanıcının IP'si Google'a gidiyordu (KVKK)
+   ve çevrimdışıyken yazı tipi yüklenmiyordu. */
+
+/* ─── Tailwind Directives ─── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theme Variables & Base Resets ─── */
+:root {
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-input: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-card: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  --accent-brand: #4f46e5;
+  --accent-brand-light: #eef2ff;
+}
+
+html.dark {
+  --bg-app: #0f172a;       /* slate-900: derin ama boğmayan koyu gri/mavi */
+  --bg-card: #1e293b;      /* slate-800: belirgin, okunaklı kart arka planı */
+  --bg-card-hover: #24344d;
+  --bg-sidebar: #020617;   /* slate-950: sol yan menü ana gövdeden ayrışır */
+  --bg-input: #334155;     /* slate-700: belirgin, aydınlatılmış input */
+  --border-subtle: #1e293b;
+  --border-card: #334155;  /* slate-700: net görünen kart kenarlığı */
+  --text-main: #f8fafc;    /* slate-50: bembeyaz, yüksek kontrastlı metin */
+  --text-muted: #cbd5e1;   /* slate-300: çok net okunur ara metin */
+  --text-subtle: #94a3b8;  /* slate-400 */
+  --accent-brand: #6366f1;
+  --accent-brand-light: rgba(99, 102, 241, 0.15);
+}
+
+html.theme-sepia {
+  --bg-app: #150f0b;       /* Sıcak Gece Kahvesi / OLED */
+  --bg-card: #201712;      /* Sıcak koyu kahve kart */
+  --bg-card-hover: #2b1f18;
+  --bg-sidebar: #0d0906;   /* Koyu kahve sidebar */
+  --bg-input: #2e221a;     /* Okunaklı kahve input */
+  --border-subtle: #2b1f18;
+  --border-card: #453225;  /* Net kahve kenarlık */
+  --text-main: #faf5ee;    /* Sıcak krem beyazı metin */
+  --text-muted: #d6c5b6;   /* Sıcak sütlü kahve metin */
+  --text-subtle: #a38d7b;
+  --accent-brand: #f59e0b; /* Sıcak amber */
+  --accent-brand-light: rgba(245, 158, 11, 0.15);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    min-height: 100dvh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Scrollbar — ince ve zarif */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-card);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-subtle);
+  }
+}
+
+/* ─── Component Utilities ─── */
+@layer components {
+  /* Genel kart stili */
+  .card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 2px 0 rgb(0 0 0 / 0.04),
+      0 2px 4px -1px rgb(0 0 0 / 0.06),
+      0 4px 8px -2px rgb(0 0 0 / 0.04);
+    color: var(--text-main);
+    transition: box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+  }
+  .card:hover {
+    box-shadow:
+      0 4px 8px -2px rgb(0 0 0 / 0.10),
+      0 8px 16px -4px rgb(0 0 0 / 0.06),
+      0 1px 2px 0   rgb(0 0 0 / 0.04);
+  }
+
+  /* Yatay kaydırma şeritlerinde scrollbar'ı gizler.
+     Projede daha önce kullanılıyordu ama tanımı eksikti. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ─── Görev Ağacı: Cam Panel (Glassmorphism) ───
+     Kullanıcının istediği bg-slate-900/40 + backdrop-blur + border-white/10
+     efektinin tema duyarlı karşılığı. Sabit slate tonu açık temada okunmaz
+     hale geldiği için transparanlık her temada ayrı ayarlanır. */
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.55);
+    /* Prefix'li önce, standart sonra: ters sırada küçültücü standart
+       özelliği gereksiz sayıp atıyor ve Firefox'ta bulanıklık kayboluyor. */
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 1px 2px 0 rgb(0 0 0 / 0.04),
+      0 8px 24px -12px rgb(0 0 0 / 0.12);
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  html.dark .glass-panel {
+    background-color: rgba(15, 23, 42, 0.40);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.04),
+      0 8px 28px -14px rgb(0 0 0 / 0.55);
+  }
+  html.theme-sepia .glass-panel {
+    background-color: rgba(32, 23, 18, 0.45);
+    border-color: rgba(245, 222, 195, 0.10);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 240 220 / 0.05),
+      0 8px 28px -14px rgb(0 0 0 / 0.55);
+  }
+
+  /* Görev Ağacı: sayfanın arkasındaki yumuşak ışık huzmeleri (aurora) */
+  .mission-aurora {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 420px;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(42% 55% at 18% 20%, rgba(99, 102, 241, 0.20), transparent 70%),
+      radial-gradient(38% 48% at 82% 10%, rgba(16, 185, 129, 0.16), transparent 70%);
+    filter: blur(22px);
+  }
+  html.theme-sepia .mission-aurora {
+    background:
+      radial-gradient(42% 55% at 18% 20%, rgba(245, 158, 11, 0.20), transparent 70%),
+      radial-gradient(38% 48% at 82% 10%, rgba(217, 119, 6, 0.14), transparent 70%);
+  }
+
+  /* Açık (available) düğümün nefes alan neon halkası */
+  .mission-glow {
+    animation: missionBreathe 3.2s ease-in-out infinite;
+  }
+  @keyframes missionBreathe {
+    0%, 100% {
+      box-shadow:
+        0 0 0 1px rgba(16, 185, 129, 0.35),
+        0 0 14px -2px rgba(16, 185, 129, 0.30);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px rgba(16, 185, 129, 0.55),
+        0 0 26px 2px rgba(16, 185, 129, 0.42);
+    }
+  }
+
+  /* Baraja ulaşmış, kapatılmayı bekleyen düğüm — daha diri mavi nabız */
+  .mission-glow-ready {
+    animation: missionBreatheReady 2.4s ease-in-out infinite;
+  }
+  @keyframes missionBreatheReady {
+    0%, 100% {
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.45),
+        0 0 18px -1px rgba(56, 189, 248, 0.40);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px rgba(56, 189, 248, 0.70),
+        0 0 34px 3px rgba(56, 189, 248, 0.55);
+    }
+  }
+
+  /* Tamamlanan düğüm: premium antrasit zemin + içten gelen parlaklık */
+  .mission-completed {
+    background-image:
+      radial-gradient(120% 90% at 50% -10%, rgba(16, 185, 129, 0.16), transparent 62%),
+      linear-gradient(180deg, rgba(38, 48, 64, 0.55), rgba(24, 31, 43, 0.55));
+    border-color: rgba(16, 185, 129, 0.30);
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.06);
+  }
+  html:not(.dark):not(.theme-sepia) .mission-completed {
+    background-image:
+      radial-gradient(120% 90% at 50% -10%, rgba(16, 185, 129, 0.16), transparent 62%),
+      linear-gradient(180deg, rgba(241, 245, 249, 0.85), rgba(226, 232, 240, 0.85));
+  }
+
+  /* Hareketi azalt tercihi: nabız ve aurora sabitlenir */
+  @media (prefers-reduced-motion: reduce) {
+    .mission-glow,
+    .mission-glow-ready {
+      animation: none;
+    }
+  }
+
+  /* Sidebar menü öğesi */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.15s ease;
+    cursor: pointer;
+    user-select: none;
+  }
+  .nav-item:hover {
+    background-color: var(--accent-brand-light);
+    color: var(--text-main);
+  }
+  .nav-item.active {
+    background-color: var(--accent-brand-light);
+    color: var(--accent-brand);
+    font-weight: 600;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+
+  /* ─── Segmented Control (iOS tarzı geçiş düğmesi) ───
+     Kapsayıcı "çukur", seçili pil "yükselmiş" görünmeli. Bu ilişki CSS
+     değişkenleriyle kurulamıyor: koyu temada --bg-input (slate-700),
+     --bg-card'dan (slate-800) DAHA AÇIK olduğu için pil çukurda kalıyor.
+     Bu yüzden ikili tema başına tanımlanır. Metin renkleri değişkenlerden
+     gelir (aktif: --text-main, pasif: --text-muted). */
+  .segmented {
+    background-color: #f1f5f9;                  /* slate-100 */
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  html.dark .segmented {
+    background-color: rgba(30, 41, 59, 0.70);   /* slate-800/70 */
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+  html.theme-sepia .segmented {
+    background-color: rgba(26, 19, 14, 0.85);
+    border-color: rgba(69, 50, 37, 0.60);
+  }
+
+  .segmented-pill {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  html.dark .segmented-pill {
+    background-color: #334155;                  /* slate-700 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+  html.theme-sepia .segmented-pill {
+    background-color: #2e221a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ─── Mobil alt menü çubuğunun zemini ───
+     Eskiden bu çubuk sabit Tailwind renkleriyle boyanıyordu
+     (bg-surface-0/90 dark:bg-surface-900/90). Tailwind'in `dark:` varyantı
+     yalnızca .dark sınıfında tetiklendiği için Gece Kahvesi temasında
+     (html.theme-sepia) çubuk beyaz kalıyordu. Yarı saydamlık gerektiği ve
+     CSS değişkenleri alfa taşımadığı için zemin burada tema başına
+     tanımlanır. */
+  .bottom-nav-surface {
+    background-color: rgba(255, 255, 255, 0.90);
+    border-top: 1px solid var(--border-card);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  html.dark .bottom-nav-surface {
+    background-color: rgba(15, 23, 42, 0.90);   /* slate-900 */
+  }
+  html.theme-sepia .bottom-nav-surface {
+    background-color: rgba(13, 9, 6, 0.92);     /* --bg-sidebar ile aynı ton */
+  }
+
+  /* Alt navigasyon öğesi (mobil) */
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.125rem;
+    flex: 1;
+    padding: 0.375rem 0;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+  .bottom-nav-item.active {
+    color: var(--accent-brand);
+    font-weight: 700;
+  }
+
+  /* Aciliyet rozetleri */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .badge-danger  { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; }
+  .badge-warning { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+  .badge-success { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+  .badge-info    { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+  html.dark .badge-danger  { background-color: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+  html.dark .badge-warning { background-color: rgba(245, 158, 11, 0.25); color: #fde047; }
+  html.dark .badge-success { background-color: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+  html.dark .badge-info    { background-color: rgba(59, 130, 246, 0.25); color: #93c5fd; }
+
+  html.theme-sepia .badge-danger  { background-color: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+  html.theme-sepia .badge-warning { background-color: rgba(245, 158, 11, 0.25); color: #fde047; }
+  html.theme-sepia .badge-success { background-color: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+  html.theme-sepia .badge-info    { background-color: rgba(217, 119, 6, 0.25); color: #fcd34d; }
+
+  /* Genel form input stili */
+  .input-field {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--text-main);
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-card);
+    border-radius: 0.75rem;
+    outline: none;
+    transition: all 0.15s ease;
+  }
+  .input-field::placeholder {
+    color: var(--text-subtle);
+  }
+  .input-field:focus {
+    border-color: var(--accent-brand);
+    box-shadow: 0 0 0 2px var(--accent-brand-light);
+  }
+
+  /* ─── Range Slider Thumb — Premium cross-browser styling ———— */
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-card);
+    cursor: pointer;
+  }
+
+  /* WebKit (Chrome, Safari, Edge) */
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-brand);
+    border: 3px solid var(--bg-card);
+    box-shadow: 0 0 0 1px var(--accent-brand), 0 2px 6px rgb(0 0 0 / 0.25);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px var(--accent-brand), 0 4px 10px rgb(0 0 0 / 0.3);
+  }
+
+  /* Firefox */
+  input[type='range']::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-brand);
+    border: 3px solid var(--bg-card);
+    box-shadow: 0 0 0 1px var(--accent-brand);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  input[type='range']::-moz-range-thumb:hover {
+    transform: scale(1.15);
+  }
+}

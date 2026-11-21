@@ -1,0 +1,19 @@
+# Cloudflare Pages / Netlify güvenlik başlıkları.
+# CSP'nin geri kalanı index.html'deki meta etiketinde; frame-ancestors
+# meta'da çalışmadığı için burada. Uygulama başka sitede çerçeveye
+# alınamaz: "Tüm verileri sıfırla" gibi düğmelere tıklatma tuzağı kurulamaz.
+/*
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), screen-wake-lock=(self), fullscreen=(self)
+  Cross-Origin-Opener-Policy: same-origin
+
+# Service worker önbelleğe alınırsa güncellemeler kullanıcıya hiç ulaşmaz.
+/sw.js
+  Cache-Control: no-cache
+/registerSW.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
