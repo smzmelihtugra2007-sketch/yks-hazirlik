@@ -454,8 +454,19 @@ derlemede `vite.config.js` `define` ile gelir: Cloudflare Pages'in
 Testçi hata bildirirken bu etiketi yazar (Ayarlar altbilgisi ve geri
 bildirim bölümü). `AppFooter` karşılamada ve Ayarlar'ın altında.
 
-"Tüm hakları saklıdır" yazısı açık kaynak lisansıyla (MIT vb.) çelişir;
-depo Aşama 4'te herkese açılırken bu karar verilmeli.
+**Lisans: açık kaynak DEĞİL** (kullanıcı kararı). `LICENSE` "tüm hakları
+saklıdır" der; depo yalnızca incelemek için açık. Depoya MIT/Apache gibi
+bir lisans ya da başka projeden lisanslı kod EKLEME.
+
+**Vitrin:** `README.md` (GitHub ziyaretçisi için: ürün + öne çıkan teknik
+kararlar), `docs/screenshots/` (örnek kullanıcı "Elif" ile gerçek
+uygulamadan alındı), `public/og-image.png` + `index.html`'de Open Graph
+etiketleri (görsel adresi MUTLAK olmalı, yoksa LinkedIn boş kart gösterir),
+`public/gizlilik.html` (Play Store da gizlilik adresi isteyecek).
+Gizlilik sayfası ayrı HTML: service worker'ın `navigateFallback`'i her
+gezintiye index.html döndürdüğü için `navigateFallbackDenylist`'te. Yeni
+bir dış servis (analitik vb.) eklenirse bu sayfa GÜNCELLENMELİ, yoksa
+yanlış beyan olur.
 
 ### Güvenlik ve veri dayanıklılığı
 
@@ -642,8 +653,12 @@ Tamamlanan (yol haritası sırasıyla):
     canlıya çıkış). Adres KALICI: veri adrese bağlı, değişirse öğrencinin
     verisi eski adreste kalır. Commit kimliği GitHub noreply adresi.
 18. ✅ Aşama 3 tamam — ana ekrana ekleme kartı + uygulama içi tarayıcı
-    uyarısı, geri bildirim bölümü (form linki bekleniyor), imza/telif
+    uyarısı, geri bildirim bölümü (Google Form, kısa link
+    forms.gle/GkP3WLarD77JNWgb8 — uygulamada uzun adres), imza/telif
     altbilgisi, sürüm etiketi. 15 kural + 16 tarayıcı kontrolü geçti.
+19. ✅ Aşama 4 vitrin — README, LICENSE (tüm hakları saklı), ekran
+    görüntüleri, Open Graph görseli, gizlilik sayfası. Depo hâlâ GİZLİ;
+    herkese açma kullanıcının GitHub ayarlarından.
 
 **Yayın planı:** Aşama 2 ücretsiz statik barındırma (Cloudflare Pages ya
 da Vercel, GitHub'a bağlı; GitHub Pages alt yol `/yks-hazirlik/` yüzünden

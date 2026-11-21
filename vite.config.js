@@ -65,6 +65,9 @@ export default defineConfig({
         // alınır; kiril/yunan dosyaları hiç indirilmiyor, çevrimdışı için
         // önbelleğe almak ~300 KB israf olurdu.
         globPatterns: ['**/*.{js,css,html}', '**/inter-latin-wght-normal-*.woff2', '**/inter-latin-ext-wght-normal-*.woff2'],
+        // Service worker her gezintiye uygulamanın index.html'ini döndürür;
+        // ayrı bir HTML sayfası olan gizlilik notu bunun dışında kalmalı.
+        navigateFallbackDenylist: [/^\/gizlilik/],
       },
       manifest: {
         // Sabit kimlik: start_url ileride değişse de kurulu uygulama aynı kalır.
