@@ -88,7 +88,7 @@ npm run lint     # oxlint
 
 ## Gizlilik
 
-Uygulama hesap istemez ve kişisel veri toplamaz. Girilen her şey yalnızca kullanıcının cihazındaki tarayıcı deposunda durur. Ayrıntılar: [Gizlilik notu](https://yks-hazirlik.pages.dev/gizlilik.html).
+Uygulama hesap istemez ve kişisel veri toplamaz. Girilen her şey yalnızca kullanıcının cihazındaki tarayıcı deposunda durur. Ayrıntılar: [Gizlilik notu](https://yks-hazirlik.pages.dev/gizlilik).
 
 ## Haklar
 

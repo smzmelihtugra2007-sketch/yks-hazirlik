@@ -9,7 +9,7 @@ export default function AppFooter({ showBuild = false }) {
         © {copyrightYears()} · Tüm hakları saklıdır. ·{' '}
         {/* Yeni sekmede: iOS'ta kurulu uygulamada geri düğmesi yok, aynı
             pencerede açılsa öğrenci gizlilik sayfasında mahsur kalırdı */}
-        <a href="/gizlilik.html" target="_blank" rel="noopener" className="underline underline-offset-2 hover:opacity-80">
+        <a href="/gizlilik" target="_blank" rel="noopener" className="underline underline-offset-2 hover:opacity-80">
           Gizlilik
         </a>
       </p>

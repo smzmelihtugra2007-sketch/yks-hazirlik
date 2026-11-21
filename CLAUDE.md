@@ -462,7 +462,9 @@ bir lisans ya da başka projeden lisanslı kod EKLEME.
 kararlar), `docs/screenshots/` (örnek kullanıcı "Elif" ile gerçek
 uygulamadan alındı), `public/og-image.png` + `index.html`'de Open Graph
 etiketleri (görsel adresi MUTLAK olmalı, yoksa LinkedIn boş kart gösterir),
-`public/gizlilik.html` (Play Store da gizlilik adresi isteyecek).
+`public/gizlilik.html` (Play Store da gizlilik adresi isteyecek). Canlı
+adresi **`/gizlilik`**: Cloudflare `.html` adreslerini 308 ile uzantısıza
+yönlendiriyor, bağlantılar doğrudan son adrese verilir.
 Gizlilik sayfası ayrı HTML: service worker'ın `navigateFallback`'i her
 gezintiye index.html döndürdüğü için `navigateFallbackDenylist`'te. Yeni
 bir dış servis (analitik vb.) eklenirse bu sayfa GÜNCELLENMELİ, yoksa
