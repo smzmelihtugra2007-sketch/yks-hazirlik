@@ -90,6 +90,12 @@ npm run lint     # oxlint
 
 Uygulama hesap istemez ve kişisel veri toplamaz. Girilen her şey yalnızca kullanıcının cihazındaki tarayıcı deposunda durur. Ayrıntılar: [Gizlilik notu](https://yks-hazirlik.pages.dev/gizlilik).
 
+## Geliştiren
+
+**Melih Tuğra Sumaz** · [LinkedIn](https://www.linkedin.com/in/melih-tu%C4%9Fra-sumaz-555603384/)
+
+Hata bildirimi ve öneriler için uygulamadaki **Ayarlar → Geri bildirim gönder** formunu kullanabilirsiniz.
+
 ## Haklar
 
 © 2026 Melih Tuğra Sumaz. Tüm hakları saklıdır.

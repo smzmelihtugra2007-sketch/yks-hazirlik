@@ -459,8 +459,8 @@ saklıdır" der; depo yalnızca incelemek için açık. Depoya MIT/Apache gibi
 bir lisans ya da başka projeden lisanslı kod EKLEME.
 
 **Vitrin:** `README.md` (GitHub ziyaretçisi için: ürün + öne çıkan teknik
-kararlar), `docs/screenshots/` (örnek kullanıcı "Elif" ile gerçek
-uygulamadan alındı), `public/og-image-v2.png` (2400×1260, 2x — 1x hâli
+kararlar), `docs/screenshots/` (örnek kullanıcı "Merve" ile gerçek
+uygulamadan alındı), `public/og-image-v3.png` (2400×1260, 2x — 1x hâli
 LinkedIn'in yeniden sıkıştırmasında bulanıklaşıyordu) + `index.html`'de
 Open Graph etiketleri (görsel adresi MUTLAK olmalı, yoksa LinkedIn boş
 kart gösterir; görsel değişirse dosya adı da değişmeli, LinkedIn adrese

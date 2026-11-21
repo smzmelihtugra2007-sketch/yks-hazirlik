@@ -115,7 +115,7 @@ export default function Onboarding() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Örn. Elif"
+              placeholder="Örn. Merve"
               autoFocus
               maxLength={40}
               className="input-field text-sm font-semibold"
