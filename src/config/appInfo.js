@@ -7,7 +7,8 @@ export const AUTHOR_NAME = 'Melih Tuğra Sumaz';
 export const COPYRIGHT_START_YEAR = 2026;
 
 // Google Form bağlantısı. Boşken "Geri bildirim gönder" düğmesi hiç görünmez.
-export const FEEDBACK_URL = '';
+export const FEEDBACK_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScMfoBPQvw1BG5c_cZ7OQ_6GRFBh9M8u9tT_yJ-1IvXk46NVg/viewform';
 
 // Derlemede vite.config.js doldurur. Cloudflare commit kimliğini verir;
 // yerel derlemede "yerel" yazar. Testçi hata bildirirken hangi sürümde
