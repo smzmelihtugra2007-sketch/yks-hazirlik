@@ -32,7 +32,11 @@ import {
   Database,
   ShieldCheck,
   FileJson,
+  MessageSquare,
+  ExternalLink,
 } from 'lucide-react';
+import AppFooter from '../ui/AppFooter';
+import { BUILD_ID, FEEDBACK_URL } from '../../config/appInfo';
 import { playBoom } from '../../utils/sound';
 import useAppStore from '../../store/useAppStore';
 import { TRACKS } from '../../data/mockData';
@@ -730,6 +734,31 @@ export default function SettingsPage() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════ Geri Bildirim ═══════════════════
+           FEEDBACK_URL boşken bölüm hiç çizilmez (config/appInfo.js). */}
+      {FEEDBACK_URL && (
+        <section className="card p-5 lg:p-6 space-y-4 shadow-card">
+          <SectionHeader icon={MessageSquare} title="Geri Bildirim" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+              Bir hata mı buldun, bir şey mi eksik? Yazarken sürümü de belirt:{' '}
+              <span className="font-bold tabular-nums" style={{ color: 'var(--text-main)' }}>{BUILD_ID}</span>
+            </p>
+            <a
+              href={FEEDBACK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all shadow-sm"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              Geri bildirim gönder
+            </a>
+          </div>
+        </section>
+      )}
+
+      <AppFooter showBuild />
 
       {/* ═══════════════════ Easter Egg Modalı (İmza Uyuşmazlığı) ═══════════════════ */}
       {typeof document !== 'undefined' &&

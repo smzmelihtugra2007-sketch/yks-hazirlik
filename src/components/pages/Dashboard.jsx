@@ -35,6 +35,7 @@ import Heatmap from '../ui/Heatmap';
 import ShareCardModal from '../ShareCardModal';
 import QuickStartCard from '../ui/QuickStartCard';
 import StreakNotice from '../ui/StreakNotice';
+import InstallCard from '../ui/InstallCard';
 import useAppStore from '../../store/useAppStore';
 import { SUBJECT_LABELS } from '../../data/mockData';
 import { triageTopics, calcTotalNet, calcNet } from '../../utils/triage';
@@ -556,6 +557,10 @@ export default function Dashboard() {
            Haklar otomatik kullanıldığı için öğrenci bilgilendirilmeli;
            yalnızca düne ait, görülmemiş olaylarda çıkar. */}
       <StreakNotice />
+
+      {/* ── Ana ekrana ekleme / uygulama içi tarayıcı uyarısı ──
+           Kurulum iOS'ta verinin silinmemesinin şartı; bkz. installPrompt.js */}
+      <InstallCard />
 
       {/* ── Hızlı Başlat / Yarım Seans ──
            En sık yapılan eylem burada, ana ekranda. Canlı süre kartın kendi

@@ -445,6 +445,18 @@ migrasyon yolunu hatırla.
 transform uygulanır; karta uygulanırsa html-to-image küçülmüş hali yakalar.
 Tailwind html-to-image'da çalışmadığı için kartın tüm stilleri inline.
 
+### Uygulama bilgileri: `config/appInfo.js`
+
+İmza (`AUTHOR_NAME`), telif yılı, geri bildirim bağlantısı (`FEEDBACK_URL`,
+Google Form — boşken düğme hiç çizilmez) ve sürüm tek yerde. Sürüm etiketi
+derlemede `vite.config.js` `define` ile gelir: Cloudflare Pages'in
+`CF_PAGES_COMMIT_SHA`'sının ilk 7 hanesi + tarih; yerelde "yerel".
+Testçi hata bildirirken bu etiketi yazar (Ayarlar altbilgisi ve geri
+bildirim bölümü). `AppFooter` karşılamada ve Ayarlar'ın altında.
+
+"Tüm hakları saklıdır" yazısı açık kaynak lisansıyla (MIT vb.) çelişir;
+depo Aşama 4'te herkese açılırken bu karar verilmeli.
+
 ### Güvenlik ve veri dayanıklılığı
 
 Sunucu yok: öğrencinin bir yıllık verisinin **tek kopyası** tarayıcı
@@ -546,6 +558,17 @@ Hedef sıra: web (PWA) → Play Store (TWA, ör. Bubblewrap) → App Store
   sonra `navigator.storage.persist()` ister (Firefox soruyor; ilk açılışta
   sormak anlamsız). iOS'ta asıl koruma ana ekrana eklemek — eklenmemiş
   sitenin verisini Safari 7 gün etkileşimsizlikte silebiliyor.
+- **Ana ekrana ekleme kartı** — `utils/installPrompt.js` (saf karar:
+  `pickInstallCard`) + `ui/InstallCard.jsx` (Genel Bakış). Üç durum:
+  `inApp` (LinkedIn/Instagram içi tarayıcı → "tarayıcıda aç"; depo geçici,
+  kurulum imkânsız — LinkedIn'de paylaşılan link TAM orada açılır, bu yüzden
+  karşılama ekranında da `compact` olarak, veri girilmeden önce çıkar),
+  `prompt` (Chromium `beforeinstallprompt` → "Yükle"), `ios` (adım adım
+  talimat; iOS'ta programatik kurulum yok). "Daha sonra" 3 gün erteler,
+  tamamen kapatma yok. `beforeinstallprompt` erken ve bir kez geldiği için
+  dinleyici modül yüklenirken kurulur — `main.jsx` bu modülü İLK içe aktarır.
+  Test notu: masaüstü Edge siteyi kurulabilir bulup gerçek olayı atar;
+  telefon taklidinde bu olay engellenmeli.
 - **`registerType: 'autoUpdate'`:** yeni sürüm sormadan yüklenir. Kullanıcı
   verisi yalnızca cihazda olduğu için store'a alan eklerken persist
   migrasyonunu unutmak doğrudan veri bozar; geri alma yolu yok.
@@ -604,7 +627,7 @@ Tamamlanan (yol haritası sırasıyla):
     hazırlığı, Aşama 1) — ölü sayfalar ve şablon artığı `icons.svg`
     silindi, telifli meme medyası kaldırıldı, PNG/maskable/apple ikonlar ve
     iOS meta etiketleri eklendi, kalıcı depolama izni, lint sıfır uyarı.
-    **Git henüz kurulmadı** (makinede git yok).
+    Git sonradan kuruldu (bkz. 17).
 15. ✅ Güvenlik ve veri dayanıklılığı denetimi — yazma koruyucusu (okuma
     hatası / hidrasyon / çoklu sekme / yazma hatası), doğrulamalı ve onaylı
     içe aktarma + geri alma, hata yakalayıcı ve kurtarma ekranı, CSP ve
@@ -614,6 +637,13 @@ Tamamlanan (yol haritası sırasıyla):
 16. ✅ Yedek hatırlatıcısı — 5/7 günlük, gerçek saate göre, uygulamayı
     kilitleyen pencere (indir / 5 sn kilitli "Şimdi değil"). 12 kural testi
     + 25 tarayıcı kontrolü geçti.
+17. ✅ Yayında: **https://yks-hazirlik.pages.dev** (Cloudflare Pages, gizli
+    GitHub deposu `smzmelihtugra2007-sketch/yks-hazirlik`, `main`'e push =
+    canlıya çıkış). Adres KALICI: veri adrese bağlı, değişirse öğrencinin
+    verisi eski adreste kalır. Commit kimliği GitHub noreply adresi.
+18. ✅ Aşama 3 tamam — ana ekrana ekleme kartı + uygulama içi tarayıcı
+    uyarısı, geri bildirim bölümü (form linki bekleniyor), imza/telif
+    altbilgisi, sürüm etiketi. 15 kural + 16 tarayıcı kontrolü geçti.
 
 **Yayın planı:** Aşama 2 ücretsiz statik barındırma (Cloudflare Pages ya
 da Vercel, GitHub'a bağlı; GitHub Pages alt yol `/yks-hazirlik/` yüzünden

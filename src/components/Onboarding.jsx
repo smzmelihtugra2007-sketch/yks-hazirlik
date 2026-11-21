@@ -21,6 +21,8 @@ import { GraduationCap, ArrowRight } from 'lucide-react';
 import useAppStore from '../store/useAppStore';
 import { TRACKS } from '../data/mockData';
 import { EASE_OUT_SOFT } from '../utils/motion';
+import InstallCard from './ui/InstallCard';
+import AppFooter from './ui/AppFooter';
 
 /** "Sadece TYT" bir alan değil, showAyt === false durumudur. */
 const TYT_ONLY = 'TYT_ONLY';
@@ -95,6 +97,9 @@ export default function Onboarding() {
             değiştirebilirsin.
           </p>
         </div>
+
+        {/* LinkedIn/Instagram içinden açıldıysa veri girmeden ÖNCE uyar */}
+        <InstallCard compact />
 
         {/* ── Form ── */}
         <form onSubmit={handleSubmit} className="card p-5 sm:p-6 space-y-5">
@@ -225,6 +230,10 @@ export default function Onboarding() {
             </p>
           )}
         </form>
+
+        <div className="mt-6">
+          <AppFooter />
+        </div>
       </motion.div>
     </div>
   );

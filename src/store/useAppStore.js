@@ -452,6 +452,10 @@ const useAppStore = create(
       },
       dismissBackupReminder: () => set({ backupReminderAnchorAt: Date.now() }),
 
+      // ─── Ana ekrana ekleme kartı (bkz. utils/installPrompt.js) ───
+      installCardDismissedAt: null,
+      dismissInstallCard: () => set({ installCardDismissedAt: Date.now() }),
+
       // ─── JSON Dosyasından Veri İthalatı (Restore) ───
       importFullData: (importedData) =>
         set((state) => ({
@@ -494,6 +498,7 @@ const useAppStore = create(
           lastBackupAt: null,
           backupReminderAnchorAt: null,
           backupReminderDays: DEFAULT_BACKUP_INTERVAL_DAYS,
+          installCardDismissedAt: null,
         });
       },
     }),

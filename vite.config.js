@@ -40,8 +40,16 @@ const cspPlugin = {
   },
 };
 
+// Sürüm etiketi: Cloudflare Pages derlemede commit kimliğini verir.
+const BUILD_ID = (process.env.CF_PAGES_COMMIT_SHA || '').slice(0, 7) || 'yerel';
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
+
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    'import.meta.env.VITE_BUILD_ID': JSON.stringify(BUILD_ID),
+    'import.meta.env.VITE_BUILD_DATE': JSON.stringify(BUILD_DATE),
+  },
   plugins: [
     react(),
     cspPlugin,
